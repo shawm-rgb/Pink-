@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flowers For You</title>
+<style>
+:root{--a:#b44fe8;--glow:#d58cff;--env:#ead8ff;--env2:#cfa9f5;--tul:#a64df0;--tul2:#d08bff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:#05050f;overflow:hidden;font-family:Georgia,"Times New Roman",serif;color:#fff}
+#stage{position:relative;height:100%;max-width:480px;margin:0 auto;overflow:hidden;
+  background:linear-gradient(#05051a 0,#0b0b2e 55%,#0d1b3d 56%,#08122b 100%)}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:tw 3s infinite alternate}
+@keyframes tw{from{opacity:.2}to{opacity:1}}
+#moon{position:absolute;top:9%;right:8%;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 0 22px 6px rgba(255,255,255,.45)}
+#title{position:absolute;top:8%;width:100%;text-align:center;font-style:italic;font-size:34px;color:var(--a);
+  text-shadow:0 0 14px var(--glow);opacity:0;transition:opacity 1s}
+.on #title{opacity:1}
+#intro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;cursor:pointer;transition:opacity .8s;font-family:system-ui,sans-serif}
+#intro b{letter-spacing:3px;font-size:18px;text-shadow:0 0 12px var(--glow)}
+#intro svg{width:120px;filter:drop-shadow(0 0 18px var(--glow));animation:beat 1.2s infinite}
+@keyframes beat{50%{transform:scale(1.12)}}
+.on #intro{opacity:0;pointer-events:none}
+#bq{position:absolute;left:50%;bottom:4%;width:min(92%,420px);transform:translateX(-50%);opacity:0}
+.on #bq{opacity:1}
+.fl{opacity:0;transform-box:fill-box;transform-origin:50% 100%}
+.on .fl{animation:grow .8s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes grow{from{opacity:0;transform:translateY(50px) scale(.2)}to{opacity:1;transform:none}}
+#env{position:absolute;left:50%;bottom:6%;width:150px;height:104px;margin-left:-75px;background:var(--env);border-radius:6px;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);cursor:pointer;transform:translateY(220px);opacity:0;transition:transform .5s ease .2s,opacity .3s ease .2s}
+.on #env{transform:none;opacity:1}
+#env::before{content:"";position:absolute;inset:0;background:var(--env2);clip-path:polygon(0 0,100% 0,50% 58%);border-radius:6px}
+#env i{position:absolute;left:50%;top:38%;transform:translateX(-50%);font-style:normal;font-size:22px;color:var(--a)}
+.letter #env{opacity:0;pointer-events:none;transition:opacity .3s}
+#paper{position:absolute;left:50%;top:50%;width:min(88%,380px);max-height:80%;overflow:auto;transform:translate(-50%,-40%) scale(.6);opacity:0;pointer-events:none;
+  background:#fffdfb;color:#3a2b36;border-radius:10px;padding:22px 22px 18px;box-shadow:0 0 40px var(--glow);transition:all .6s;cursor:pointer;font-family:Georgia,serif}
+.letter #paper{opacity:1;transform:translate(-50%,-50%);pointer-events:auto}
+#paper h3{margin:0 0 10px;font-size:19px;color:var(--a)}
+#paper p{margin:0 0 12px;font-size:15px;line-height:1.55}
+#paper .bear{text-align:center;font-size:56px;margin:6px 0}
+#paper small{display:block;text-align:right;color:#8a7684;font-style:italic}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="moon"></div>
+  <div id="title">Flowers For You</div>
+  <div id="intro">
+    <b>TAP TO OPEN</b>
+    <svg viewBox="0 0 24 22"><path d="M12 21C4 14 1 10.5 1 6.5 1 3.5 3.4 1 6.4 1c2.2 0 4.2 1.2 5.6 3.3C13.400 2.200 15.400 1 17.600 1 20.600 1 23 3.500 23 6.500 23 10.500 20 14 12 21z" fill="var(--a)"/></svg>
+  </div>
+  <svg id="bq" viewBox="0 0 300 330"></svg>
+  <div id="env"><i>♥</i></div>
+  <div id="paper"></div>
+</div>
+<script>
+var LETTERS={
+ purple:{h:"Dear Friend,",p:["Today isn’t a special date, but it’s a special day for me, because I wanted you to know you’re one of the best things that ever happened to me.","Thank you for staying through the good days and the messy ones. Never change, okay?"],s:"Your friend, always 💜"}
+};
+var st=document.getElementById('stage'),bq=document.getElementById('bq'),paper=document.getElementById('paper');
+for(var i=0;i<45;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*52+'%';s.style.animationDelay=Math.random()*3+'s';st.appendChild(s);}
+var F=[[150,70,1.15,0],[105,95,1,-14],[195,95,1,14],[65,135,.95,-26],[235,135,.95,26],[130,125,1.05,-6],[170,125,1.05,6],[90,175,.9,-20],[210,175,.9,20]];
+function build(){
+  var h='<defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--tul2)"/><stop offset="1" stop-color="var(--tul)"/></linearGradient></defs>';
+  F.forEach(function(f,i){
+    var x=f[0],y=f[1];
+    h+='<g class="fl" style="animation-delay:'+(i*0.06)+'s">'+
+      '<path d="M150 290 Q'+((x+150)/2)+' '+((y+290)/2+20)+' '+x+' '+(y+30)+'" stroke="#3f9a55" stroke-width="3" fill="none"/>'+
+      '<path d="M'+((x+150)/2)+' '+((y+290)/2+10)+' q'+(x<150?-22:22)+' -10 '+(x<150?-30:30)+' -34 q'+(x<150?20:-20)+' 14 '+(x<150?-30:30)*-1+' 34z" fill="#49b062" opacity=".85"/>'+
+      '<g transform="translate('+x+' '+(y+30)+') rotate('+f[3]+') scale('+f[2]+')">'+
+      '<path d="M-17 0C-20-26-9-42 0-46C9-42 20-26 17 0C10 8-10 8-17 0z" fill="url(#pg)"/>'+
+      '<path d="M-17 0C-16-20-8-32 0-46C-4-28-4-10 0 7C-8 6-14 4-17 0z" fill="var(--tul)" opacity=".55"/>'+
+      '<path d="M17 0C16-20 8-32 0-46C4-28 4-10 0 7C8 6 14 4 17 0z" fill="var(--tul2)" opacity=".5"/></g></g>';
+  });
+  h+='<path d="M92 330L112 255 150 240 188 255 208 330z" fill="var(--env2)"/><path d="M112 255L150 240 188 255 150 290z" fill="var(--env)"/>';
+  bq.innerHTML=h;
+}
+function letter(v){var L=LETTERS[v];paper.innerHTML='<h3>'+L.h+'</h3><p>'+L.p.join('</p><p>')+'</p><div class="bear">🧸</div><small>'+L.s+'</small>';}
+function setV(v){st.className='';build();letter(v);}
+document.getElementById('intro').onclick=function(){st.className='on';setTimeout(function(){st.className='on letter'},900)};
+document.getElementById('env').onclick=function(){st.className='on letter'};
+paper.onclick=function(){st.className='on'};
+setV('purple');
+</script>
+</body>
+</html>
